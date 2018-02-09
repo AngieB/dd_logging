@@ -31,16 +31,29 @@
         "sudo apt-get install -y docker-compose",
         "sudo apt-get install -y filebeat",
         "sudo rm  /etc/filebeat/filebeat.yml",
-        "sudo update-rc.d filebeat defaults 95 10"
+        "sudo update-rc.d filebeat defaults 95 10",
+        "sudo mkdir /etc/packetbeat"
       ]},
-    {"type": "file",
+    {
+    "type": "file",
     "source": "./filebeat.yml",
     "destination": "/tmp/filebeat.yml"
-  },
-  {
+    },
+   {
+    "type": "file",
+    "source": "./packetbeat.yml",
+    "destination": "/tmp/packetbeat.yml"
+   },
+   {
+     "type": "shell",
+     "inline": [
+        "sudo mv  /tmp/filebeat.yml /etc/filebeat/filebeat.yml",
+        "chown -R root /etc/filebeat/filebeat.yml"
+      ]},
+   {
     "type": "shell",
       "inline": [
-          "sudo mv  /tmp/filebeat.yml /etc/filebeat/filebeat.yml"
-  ]
-  }]
+          "sudo mv  /tmp/packetbeat.yml /etc/packetbeat/packetbeat.yml"
+           ]
+         }]
 }
