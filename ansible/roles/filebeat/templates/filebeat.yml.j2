@@ -1,0 +1,15 @@
+filebeat.prospectors:
+- type: docker
+  containers.ids:
+    - '*'
+  paths:
+  {% for item in log_paths %}
+  - '{{ item }}'
+  {% endfor %}
+
+  processors:
+    - add_docker_metadata: ~
+output.logstash:
+  hosts: [{{ logstash_hosts }}]
+  username: {{ logstash_user }}
+  password: {{ logstash_pw }}

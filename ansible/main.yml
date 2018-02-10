@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  vars:
+    log_paths: []
+  roles:
+    - filebeat

@@ -1,0 +1,13 @@
+---
+- name: get docker container log paths
+  script: /Users/angie/dd_logging_1/ansible/roles/filebeat/files/get_log_paths.sh --creates /Users/angie/dd_logging_1/ansible/roles/filebeat/files/log_paths.txt
+
+- name: set vars from fresh list of log_paths
+  set_fact:
+    log_paths: "{{ log_paths }} + [ '{{ item }}' ]"
+  with_lines: cat "/Users/angie/dd_logging_1/ansible/roles/filebeat/files/log_paths.txt"
+
+- name: create filebeat from template
+  template:
+    src: /Users/angie/dd_logging_1/ansible/roles/filebeat/templates/filebeat.yml.j2
+    dest: /Users/angie/dd_logging_1/ansible/filebeat/files/filebeat.yml
