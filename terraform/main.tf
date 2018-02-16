@@ -40,10 +40,10 @@ module "ec2_cluster" {
   user_data              = "${file("${path.module}/user_data.sh")}"
   ami                    = "${data.aws_ami.packer_ubuntu.id}"
   instance_type          = "t2.micro"
-  key_name               = "uswest1"
+  key_name               = "${var.key_name}"
   monitoring             = false
   vpc_security_group_ids = ["${data.aws_security_group.home_ssh.id}"]
-  subnet_id              = "subnet-1c263a79"
+  subnet_id              = "${var.subnet_id}"
   associate_public_ip_address = "true"
   tags = {
     Terraform   = "true"
