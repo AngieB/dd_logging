@@ -20,3 +20,15 @@ then to build packer ami run:
 For using terraform you will need to have the following defined within a main.tfvars file:
 * key_name
 * subnet_id
+
+## Considerations / Gotchas
+Main consideration of this repo was time -- and quickly coming up with an example of possible ways to deploy logging shippers using terraform/packer.
+
+A better design would be to create an Ansible role for configuring/launching filebeat/packetbeat shippers, and to strip the user_data.sh file down to bare minimum (if using it at all -- for instance setting ec2 instance env variables from ec2metadata can be useful but is not required)...  
+So ideally using packer to build a base ami, use terraform to provision instances using that base ami, and use Ansible to configure software that will be running on these instances, and then use Consul for service discovery. 
+
+The Terraform module that is referenced but not committed here is from https://registry.terraform.io/  
+This allows me to reference an aws-verified ec2 module directly by using:
+``source = "terraform-aws-modules/ec2-instance/aws"``
+
+More information on how terraform registry works can be found here: https://www.terraform.io/docs/modules/sources.html#terraform-registry
